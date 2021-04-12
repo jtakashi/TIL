@@ -1,0 +1,62 @@
+０４１３
+githubでファイル消してソースツリーでpullしたらローカルのやつ消えたので復活させてみた
+
+手順
+  ①　git log で戻したいcommitのID調べる
+  ②　git checkout <コミットID>
+  ⓷　ローカルリポジトリが指定したコミットIDの状態に戻った。
+
+本題
+  タイトルにもあるがソースツリーで確認したところHeadというブランチが追加されていた。
+  これについて詳しく調べたくなったので、気になった事などをまとめておく。
+  
+ Headとは？
+  今いるブランチの最新コミット
+  ブランチを移動（チェックアウト）すればHEADの位置も変わる  とのこと
+  
+ 今Headブランチはローカルにしかないけどリモートにpushしたらどうなる？
+  普通に　git push したらこんなエラー出た。
+  You are not currently on a branch.
+  To push the history leading to the current (detached HEAD)
+  state now, use
+    git push origin HEAD:<name-of-remote-branch>
+  次に　git push origin HEAD　とだけ打ってみたら次のエラー
+      error: The destination you provided is not a full refname (i.e.,
+    starting with "refs/"). We tried to guess what you meant by:
+
+    - Looking for a ref that matches 'HEAD' on the remote side.
+    - Checking if the <src> being pushed ('HEAD')
+      is a ref in "refs/{heads,tags}/". If so we add a corresponding
+      refs/{heads,tags}/ prefix on the remote side.
+
+    Neither worked, so we gave up. You must fully qualify the ref.
+    hint: The <src> part of the refspec is a commit object.
+    hint: Did you mean to create a new branch by pushing to
+    hint: 'HEAD:refs/heads/HEAD'?
+    error: failed to push some refs to 'https://github.com/jtakashi/githubTest.git'
+    
+  refが何のことかわらかなかったので調べた
+    refは参照の意味らしい　https://https://www.kaitoy.xyz/2015/12/27/git-repository/
+  HEADはブランチではないらしい。
+  
+  以上のことから、ローカルリポジトリにそれ用のブランチ作ってあげてそれにpushすればいいんじゃないかと思って
+  試したらエラー。
+ 
+      To https://github.com/jtakashi/githubTest.git
+     ! [rejected]        HEAD -> test (non-fast-forward)
+    error: failed to push some refs to 'https://github.com/jtakashi/githubTest.git'
+    hint: Updates were rejected because a pushed branch tip is behind its remote
+    hint: counterpart. Check out this branch and integrate the remote changes
+    hint: (e.g. 'git pull ...') before pushing again.
+    hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+  方向性はあってるっぽい。エラー内容をそのままググったら、https://qiita.com/Takao_/items/5e563d5ea61d2829e497 (git pushがreject（拒否）されたときの対処法)
+  という記事が見つかったので、git push -f origin HEAD:test　で強制的にプッシュしてみた。
+  
+  結果　test というブランチに消したファイルを消す前の状態にしてブランチ分けられた！
+  
+  補足 git push -f は基本的には使っちゃだめ。
+      多分先にgithubでブランチ作っておいてそれをpullしてcheckoutするのが一般的と思われる。
+      今回は先にcheckoutしちゃったのと、個人で使ってる壊れてもいいリポジトリだから使用した。
+      
+  
+  
