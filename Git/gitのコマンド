@@ -1,0 +1,28 @@
+基本
+  git add
+  git commit
+  git push
+  git clone
+  git pull
+  
+使ったのを忘れないうちに
+  git merge  
+  git fetch       fetch + merge = pull ということらしい
+  
+  git branch　自分がいまいるブランチを調べたいとき
+  
+  git config --list リポジトリの設定を確認　ユーザー名とか　--globalや--localで絞込できる
+  
+  git status addの状況が見れる
+  
+  git log コミットの履歴が見れる
+  
+  git reflog ブランチ切り替えとかマージの履歴とかが見れる。
+  
+  その他
+  【Git入門】基本操作の次に覚えておきたい便利な機能5選
+      https://liginc.co.jp/196337/2
+  ｇit stash とかの解説あり 
+  
+ 
+ 
