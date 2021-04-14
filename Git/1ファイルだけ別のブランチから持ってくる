@@ -1,0 +1,7 @@
+リンク：https://qiita.com/oret/items/b646fcada9d89ed308c4(Git 1ファイルだけ別のブランチから持ってくる)
+test branchのb.txtだけmainにもってきたかった。
+
+git show test:                      mainブランチからtestブランチの中見れる
+git show test:b.txt                 mainブランチからtestの中のb.txtの中身見れる
+git checkout test -- b.txt          testブランチからmainブランチにb.txtをとってくる(copy)
+ls                                  mainブランチにb.txtがあることを確認
