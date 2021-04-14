@@ -1,0 +1,37 @@
+どういう場面で必要になる知識か？＿
+  ⇒　ほかの人が作成しgithubにあげたブランチを自分のローカルに持ってきたい時。
+  
+今回は別のpcで作ったブランチ(test)をリモートにpushしたのでそれを持ってきたかった。
+
+git branch -r                 でリモート追跡ブランチを確認
+  origin/HEAD -> origin/main
+  origin/main 
+
+git pull                      でリモートの最新の状態(commit履歴など)を取得
+
+この時、git pullだと今いるブランチのファイルが更新されてしまうが
+それを嫌うのであれば、git fetch origin/<取得したいブランチ名> でもいい。
+
+再度
+
+git branch -r                 でリモート追跡ブランチを確認
+   origin/HEAD -> origin/main
+   origin/main
+   origin/test  ←これが追加されていればOK
+
+しかし、これで終了というわけではない。
+
+git branch　                   と打つと、
+  main  　　　
+  
+しかローカルには入っていないことがわかる。
+ 次の手順でリモート追跡ブランチを利用しローカルにブランチを作る必要がある。
+
+git checkout -b test origin/test
+
+このコマンドをたたけば
+  testというブランチを新規に作成
+  ブランチをtestに切り替える。
+  内容をorigin/test　から持ってくる＆紐づけ(pushできる）
+が同時にできる。
+git branch や中のファイルを見るなどして確認　終了！！
