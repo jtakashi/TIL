@@ -1,0 +1,33 @@
+★接続
+my sql -u <ユーザー名> -p
+
+★パスワード変更
+ALTER USER 'root'@'localhost' identified BY '<新しいパスワード>';
+
+★文字コードをUTF-8に統一
+show variables like "chara@";		            //現在の設定を確認
+quit					//linuxに戻る
+/etc/my.conf に次の２行を追加　　　　　	  　 ※バックアップ作成忘れずに
+　character_set_server=utf8
+　skip-character-set-client-handshake
+
+★データベースの作成
+create database <データベース名>;
+データベース一覧の確認
+show databases;
+
+★ユーザー作成＆データベースに対して権限変更
+create user '<ユーザー名>'@'localhost' identified by '<パスワード>';
+select user, host from mysql .user;	          //追加されたか確認
+
+grant all privileges on <データベース名>.* to '<ユーザー名>'@'localhost';
+
+grant all privileges on Testuser.* to '<ユーザー名>'@'localhost';   //例　grant all privileges on sukkiriShop.* to 'testuser'@'localhost';
+
+show databases;			                          //rootで作ったデータベースが見れるようになってるはず
+
+use <データベース名>;
+
+show tables;
+
+create table～～～  以降は通常の流れ
