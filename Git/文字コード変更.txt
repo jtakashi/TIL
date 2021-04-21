@@ -1,0 +1,74 @@
+windows版mysqlの文字コードの設定がちょっとややこしかったので覚書
+
+★文字コードの確認
+show variables like "chara%";
+すると
++--------------------------+---------------------------------------------------------+
+| Variable_name            | Value                                                   |
++--------------------------+---------------------------------------------------------+
+| character_set_client     | cp932                                                   |
+| character_set_connection | cp932                                                   |
+| character_set_database   | utf8mb4                                                 |
+| character_set_filesystem | binary                                                  |
+| character_set_results    | cp932                                                   |
+| character_set_server     | utf8mb4                                                 |
+| character_set_system     | utf8                                                    |
+| character_sets_dir       | C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\ |
++--------------------------+---------------------------------------------------------+
+と出力される。
+
+これをこう↓したい
++--------------------------+---------------------------------------------------------+
+| Variable_name            | Value                                                   |
++--------------------------+---------------------------------------------------------+
+| character_set_client     | utf8mb4                                                 |
+| character_set_connection | utf8mb4                                                 |
+| character_set_database   | utf8mb4                                                 |
+| character_set_filesystem | binary                                                  |
+| character_set_results    | utf8mb4                                                 |
+| character_set_server     | utf8mb4                                                 |
+| character_set_system     | utf8                                                    | //これはデータベースの名前の文字コードなのでデフォルトのままでいい
+| character_sets_dir       | C:\Program Files\MySQL\MySQL Server 8.0\share\charsets\ |
++--------------------------+---------------------------------------------------------+
+
+★やること
+C:\Program Files\MySQL\MySQL Server 8.0に"my.ini"を作成
+	(デフォルトで入ってたらそれを書き換えるらしい、俺のはなかった)
+中身:
+[mysqld]
+character-set-server=utf8mb4
+skip-character-set-client-handshake
+
+[client]
+default-character-set=utf8mb4
+
+[mysql]
+default-character-set=utf8mb4
+
+として、サービスでもいいし管理者CMDでもいいから再起動
+
+★余談
+utf8mb4 はutf8の強化版的なものらしい、こっちにしないと絵文字とかでエラーになるらしい。
+中身の意味
+
+ 
+[mysqld]
+character-set-server=<文字コード>	新規にデータベースを作るときの文字コードを設定
+
+character-set-server=utf8mb4		以下の3つの文字コードをcharacter-set-serverとおんなじにする
+	
+	character_set_client		クライアントが送ってくるとサーバーが想定している文字コード
+	character_set_connection	クエリを実行する文字コード
+	character_set_result		クライアントに結果を返すときの文字コード
+
+[client]
+default-character-set=utf8mb4		クライアントのほうで指定がなかった時のデフォルト指定
+
+[mysql]
+default-character-set=utf8mb4		mysqlコマンドの文字コードらしい(ちょっと不安)
+
+下の二つに関してはjdbc使ってアプリと繋ぐ場合、アプリ側で文字コードの指定をしてるのであんまり気にしなくていい
+
+
+
+
