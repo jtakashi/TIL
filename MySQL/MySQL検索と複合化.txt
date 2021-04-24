@@ -1,0 +1,51 @@
+暗号化したデータで検索＆複合化して表示
+
+
+*サンプルとして以下のテーブルを使用
+
+mysql> SHOW COLUMNS FROM account;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| user_id | char(10)     | NO   | PRI | NULL    |       |
+| pass    | varchar(32)  | YES  |     | NULL    |       | //passを暗号化したい
+| mail    | varchar(100) | NO   |     | NULL    |       |
+| name    | varchar(40)  | NO   |     | NULL    |       |
+| age     | int          | NO   |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+
+
+＊暗号化したデータを入れる(passを暗号化)
+
+insert into account (user_id, pass, mail, name, age)
+	values('tanaka',HEX(AES_ENCRYPT('1234', 'PWD')),'tanaka@example.com','田中　太郎',23);
+
+(確認)
+　mysql> select * from account;
+　+---------+----------------------------------+--------------------+-----------------+-----+
+　| user_id | pass                             | mail               | name            | age |
+　+---------+----------------------------------+--------------------+-----------------+-----+
+　| tanaka  | A4BDCADC719BE7BCE56B68C3D25FEDB9 | tanaka@example.com | 田中　太郎      |  23 |
+　+---------+----------------------------------+--------------------+-----------------+-----+
+
+
+＊暗号化したデータを取り出す
+
+select 
+	user_id, 
+	convert(AES_DECRYPT(UNHEX(pass), 'PWD')USING utf8), 
+	mail, name, 
+	age 
+from 
+	account 
+where 
+	user_id = "tanaka" and 
+	convert(AES_DECRYPT(UNHEX(pass), 'PWD')USING utf8);
+(結果）
++---------+----------------------------------------------------+--------------------+-----------------+-----+
+| user_id | convert(AES_DECRYPT(UNHEX(pass), 'PWD')USING utf8) | mail               | name            | age |
++---------+----------------------------------------------------+--------------------+-----------------+-----+
+| tanaka  | 1234                                               | tanaka@example.com | 田中　太郎      |  23 |
++---------+----------------------------------------------------+--------------------+-----------------+-----+
+
+
