@@ -40,7 +40,7 @@ from
 	account 
 where 
 	user_id = "tanaka" and 
-	convert(AES_DECRYPT(UNHEX(pass), 'PWD')USING utf8);
+	convert(AES_DECRYPT(UNHEX(pass), 'PWD')USING utf8)="1234";
 (結果）
 +---------+----------------------------------------------------+--------------------+-----------------+-----+
 | user_id | convert(AES_DECRYPT(UNHEX(pass), 'PWD')USING utf8) | mail               | name            | age |
