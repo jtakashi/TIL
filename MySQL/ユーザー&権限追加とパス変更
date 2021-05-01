@@ -5,7 +5,7 @@ my sql -u <ユーザー名> -p
 ALTER USER 'root'@'localhost' identified BY '<新しいパスワード>';
 
 ★文字コードをUTF-8に統一
-show variables like "chara@";		            //現在の設定を確認
+show variables like "chara@";		            //現在の設定を確認（Macの場合、最後のchara@をchara%にする。zshだけかも？）
 quit					//linuxに戻る
 /etc/my.conf に次の２行を追加　　　　　	  　 ※バックアップ作成忘れずに
 　character_set_server=utf8
