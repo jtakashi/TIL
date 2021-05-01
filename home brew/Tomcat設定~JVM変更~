@@ -1,1 +1,28 @@
+コマンド
+tomcat の起動
+brew services start tomcat@9
+    ※環境設定すればtomcat@9ってわざわざ指定しなくて良さげ
+    restart,stopも同様
+    
+javaのバージョン切り替え
+  MacのBrewで複数バージョンのJavaを利用する + jEnv（https://qiita.com/seijikohara/items/56cc4ac83ef9d686fab2)
+ 
+ /usr/libexec/java_home -V
+      今入ってるjavaの確認
+      
+環境変数の設定（別にしなくても良い）
+  注意　.zshrcの中に変数書くときはexportも書かないと環境変数じゃなくてシェル変数ってのになっちゃう
+  https://qiita.com/nikofu501/items/7c46ab549f60a6937182
 
+Tomcatのjvmの設定
+/usr/local/Cellar/tomcat@9/9.0.45/bin
+にsetenv.shを作成
+<中身>
+JAVA_HOME=/Users/takashimajunya/Library/Java/JavaVirtualMachines/corretto-1.8.0_292/Contents/Home
+
+仕組み
+tomcat起動した時に実行されるcatalina.shに宣言した環境変数がよばれてる。
+catalina.shは上の階層のファイル（/usr/local/Cellar/tomcat@9/9.0.45/bin）の中のcatalinaってファイルに呼ばれてた。
+
+再起動して管理画面からサーバーステータスにログイン
+jvmのバージョンが自分か使いたいやつになってたらOK
