@@ -48,6 +48,9 @@ Spring Boot_ver.2.4.5 (エクリプスデフォルト)
 		
 ◆はまったところ
 	<DBの行名 / HTMLフォームのname属性 / beanのフィールド名>は統一！！	
+	
+
+◆参考：https://qiita.com/fftcy-sttkm/items/57e8596820cff28ec682
 
 
 		
