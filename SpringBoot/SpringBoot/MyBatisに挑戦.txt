@@ -1,0 +1,62 @@
+SpringBoot　MySQL接続(MyBatis使用)
+
+◆環境
+Maven
+java_ver.1.8
+Spring Boot_ver.2.4.5 (エクリプスデフォルト)
+依存関係・Spring Boot DevTools, 
+	・MyBatis Framework,
+	・Thymeleaf, 
+	・Spring Web, 
+	・MySQL Driver 
+	       
+◆やったこと
+	1.application.propertiesを下記のみ記載
+		spring.datasource.url=jdbc:mysql://localhost:3306/sukkirishop
+		spring.datasource.username=root
+		spring.datasource.password=1234
+		spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+		spring.datasource.initialization-mode=always
+		spring.datasource.sql-script-encoding=utf-8
+
+	2.Formクラスの作成(package com.example.demo.form)
+		AccountForm.java
+		…htmlのフォームから取得したDBの検索のキーだけを入れた
+	
+	3.Entityクラスの作成(package com.example.demo.entity)
+		Account.java
+		…普通のBean、DBからとってきた値を入れるので対応するフィールドの変数が必要
+	
+	4.Daoインタフェースとマッピングファイルの作成
+		AccountDao.java(package com.example.demo.dao)
+		…インターフェースであること、@Mapperアノテーションの付け忘れ注意
+		AccountDao.xml(src/main/resources/にcom.example.demo.daoを作成)
+ 		…SQLはここに書く。詳しい書き方はMapper XMLファイルで調べると色々出てくる
+	
+	5.Serviceクラスの作成(package com.example.demo.service)
+		AccountService.java
+		…実行専用のクラスみたいな感じっぽい？
+	
+	6．Controllerクラスの作成(package com.example.demo.controller)
+		Controller.java
+		…サーブレットみたいな感じで処理を呼び出したり、画面遷移させたり。
+	7.index.htmlの作成(src/main/resourcese/templates)
+		…formのinputタグのname属性にはBeanと対応するものを使うこと
+		自動でインスタンスにセットしてくれるっぽいので注意
+	
+	8.完成
+		
+◆はまったところ
+	<DBの行名 / HTMLフォームのname属性 / beanのフィールド名>は統一！！	
+
+
+		
+	
+	
+		
+		
+		
+
+		
+
+	
