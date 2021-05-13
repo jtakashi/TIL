@@ -11,7 +11,7 @@ Spring Boot_ver.2.4.5 (エクリプスデフォルト)
 	・MySQL Driver 
 	       
 ◆やったこと
-	1.application.propertiesを下記のみ記載
+	1.application.propertiesに下記のみ記載
 		spring.datasource.url=jdbc:mysql://localhost:3306/sukkirishop
 		spring.datasource.username=root
 		spring.datasource.password=1234
