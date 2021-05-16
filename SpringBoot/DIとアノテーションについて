@@ -1,24 +1,61 @@
 DI(依存性注入)とは？
-->オブジェクトの注入のこと
+->依存するオブジェクトの(外部からの)注入
+　クラスで使う変数やインスタンスを外部から取り込むことで依存させず
+　クラスを単体で動かせるようにすることで、単体テストが簡単になる。
+　デザインパターンの一つ
 
 DIコンテナ
-->DI実現をお手伝いするためのフレームワーク
+->DI実現をお手伝いするためのフレームワーク。オブジェクトを保管しておくところ
 
 Configurationとは?
 ->SpringフレームワークではDIコンテナに対しConfigurationと言う設定ファイルを渡し
  「こんな時には、このインスタンスを返してね」と設定する。
 
-@Configurationについて
-->クラスにつけるアノテーション
-　Springの設定をJavaコード上で行えるようになる。(従来はXMLなどで設定していた)
-  通常、@Beanメソッドを宣言するクラスには@Configurationを付与する。
-　※@Configurationには、メタアノテーションと@Componentが付与されている。
+	@Configurationについて
+	->クラスにつけるアノテーション
+　	Springの設定をJavaコード上で行えるようになる。(従来はXMLなどで設定していた)
+ 	 通常、@Beanメソッドを宣言するクラスには@Configurationを付与する。
+　	※@Configurationには、メタアノテーションと@Componentが付与されている。
 
-@Beanについて
-->@Configurationクラス内のメソッドにつけるアノテーション。
-  @Beanメソッドで、Beanのインスタンスを生成し、これを戻り値として返すと、
-  そのインスタンスがSpringコンテナに登録される。
-　Springの設定ファイル(applicationContext.xml)の<bean>のアノテーション版
+BeanとBean定義
+->Springでは、DIコンテナに登録するコンポーネントのことを「Bean」、
+  Configurationのことを「Bean定義」という。
+
+	@Beanについて
+	->@Configurationクラス内のメソッドにつけるアノテーション。
+  	@Beanメソッドで、Beanのインスタンスを生成し、これを戻り値として
+　	返すとそのインスタンスがSpringコンテナに登録される。
+　	Springの設定ファイル(applicationContext.xml)の<bean>のアノテーション版
+
+コンポーネントとは(自分の理解)
+->DIコンテナに登録されたオブジェクトのこと、部品。
+
+	@Componentについて
+	->クラス(Bean)をコンポーネントにする。@Autowiredと組み合わせることでインスタンスをnew
+ 	 せずに作成することができ、単体テストが簡単になったりする。
+	　@Repository,@Service,@Controller,@Configuration等に継承される=@ComponentScanの対象
+　	@Componentはそのまま使うことは少ない。
+
+	@Autowiredについて
+	->フィールドに付けるアノテーション
+	DIコンテナからオブジェクトを取り出してインスタンスとして使用できるようにする
+
+@Beanと@Componentの違い(抜粋そのまま)
+->"Springからインスタンスを取得して利用する分にはどちらも大きな差がありませんが、
+   Spring起動時に設定する内容を取り込むのは @Bean で定義したクラスの役割で、
+   @Componentなどのクラスは、実際にアプリケーションが動作してからロジックで使うものです。"
+
 
 コンポーネントスキャンとは？
 ->クラスローダーをスキャンして特定のクラスを自動的にDIコンテナに登録すること。
+
+@ComponentScan
+->クラスに付けるアノテーション
+　同じパッケージ内に@componentがついてるクラスがあればDIコンテナに登録する
+　@Repository,@Service,@Controller,@Configuration等も対象になる。
+
+◆備考コンポーネントの定義方法分類
+　・JavaベースConfiguration	//@Configuration,@Beanを使った定義
+　・XMLベースConfiguration
+　・アノテーションベースのConfiguration  //@ComponentScanを使った定義
+
