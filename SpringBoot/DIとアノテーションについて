@@ -21,7 +21,7 @@ BeanとBean定義
 ->Springでは、DIコンテナに登録するコンポーネントのことを「Bean」、
   Configurationのことを「Bean定義」という。
 
-	@Beanについて
+	@Bean(Bean定義)について
 	->@Configurationクラス内のメソッドにつけるアノテーション。
   	@Beanメソッドで、Beanのインスタンスを生成し、これを戻り値として
 　	返すとそのインスタンスがSpringコンテナに登録される。
